@@ -4,6 +4,7 @@ module Minkorrekt
   class GithubClient
     def self.setup(backend, token)
       @client ||= backend.new(:access_token => token)
+      self
     end
 
     def self.client

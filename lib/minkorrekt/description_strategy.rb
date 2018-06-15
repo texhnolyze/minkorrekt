@@ -29,4 +29,19 @@ module Minkorrekt
       strategy.description_from(episode.description)
     end
   end
+
+  class ExperimentDescriptionStrategy
+    attr_reader :strategy,  :episode
+
+    def initialize(episode)
+      @episode = episode
+      @strategy = Minkorrekt::DescriptionStrategy.new(
+        /^(?!thema).*experiment.*$/i
+      )
+    end
+
+    def description
+      strategy.description_from(episode.description)
+    end
+  end
 end

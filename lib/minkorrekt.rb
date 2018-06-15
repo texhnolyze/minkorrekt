@@ -24,7 +24,11 @@ module Minkorrekt
 
     parser = Minkorrekt::FeedParser.new(feed_uri)
 
-    experiment = Minkorrekt::Experiment
+    experiment = Minkorrekt::Experiment.setup(
+      Minkorrekt::ExperimentTitleStrategy,
+      Minkorrekt::ExperimentDescriptionStrategy,
+      github_client
+    )
     china_gadget = Minkorrekt::ChinaGadget.setup(
       Minkorrekt::ChinaGadgetTitleStrategy,
       Minkorrekt::ChinaGadgetDescriptionStrategy
@@ -36,9 +40,31 @@ module Minkorrekt
     episodes = extractor.generate_episode_models
 
     episode = episodes[24]
+    puts episode.title
+    puts "\nExperiment:"
+    puts episode.experiment.title
+    puts episode.experiment.description
+    puts "\nChinaGadget:"
     puts episode.china_gadget.title
     puts episode.china_gadget.description
-    puts episode.china_gadget.external_links
+
+    episode2 = episodes[63]
+    puts episode2
+    puts "\nExperiment:"
+    puts episode2.experiment.title
+    puts episode2.experiment.description
+    puts "\nChinaGadget:"
+    puts episode2.china_gadget.title
+    puts episode2.china_gadget.description
+
+    episode3 = episodes[87]
+    puts episode3
+    puts "\nExperiment:"
+    puts episode3.experiment.title
+    puts episode3.experiment.description
+    puts "\nChinaGadget:"
+    puts episode3.china_gadget.title
+    puts episode3.china_gadget.description
   end
 
   module_function :setup

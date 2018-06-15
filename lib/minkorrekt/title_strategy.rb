@@ -28,4 +28,20 @@ module Minkorrekt
       strategy.title_from(episode.description)
     end
   end
+
+  class ExperimentTitleStrategy
+    attr_reader :strategy, :episode
+
+    def initialize(episode)
+      @episode = episode
+      @strategy = Minkorrekt::TitleStrategy.new(
+        /experiment der woche: (?:")?([ \wäöü-]+)/i,
+        'Gab kein Experiment'
+      )
+    end
+
+    def title
+      strategy.title_from(episode.summary)
+    end
+  end
 end

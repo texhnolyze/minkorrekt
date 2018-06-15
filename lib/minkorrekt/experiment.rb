@@ -1,29 +1,41 @@
 module Minkorrekt
   class Experiment
-    attr_reader :docs_id, :episode, :client
+    def self.setup(title_strategy, description_strategy, github_client)
+      @title_strategy = title_strategy
+      @description_strategy = description_strategy
+      @github_client = github_client
+      self
+    end
+
+    def self.title_strategy
+      @title_strategy
+    end
+
+    def self.description_strategy
+      @description_strategy
+    end
+
+    def self.github_client
+      @github_client
+    end
+
+    attr_reader :docs_id, :episode, :client, :title_strategy, :description_strategy
 
     def initialize(episode)
       @episode = episode
       @docs_id = episode.number.rjust(2, '0')
-      @client = Minkorrekt::GithubClient.new
+
+      @client = self.class.github_client.new
+      @title_strategy = self.class.title_strategy.new(episode)
+      @description_strategy = self.class.description_strategy.new(episode)
     end
 
     def title
-      matches = episode.summary.match(/experiment der woche: (?:")?([ \wäöü-]+)/i)
-      matches ? matches.captures[0] : 'Gab kein Experiment'
+      title_strategy.title
     end
 
     def description
-      if defined?(@description)
-        @description
-      else
-        desc = episode.description.lines.select do |paragraph|
-          paragraph.match(/Experiment/) && !paragraph.match(/Thema \d/)
-        end
-
-        @description = desc.last || ''
-        @description.strip!
-      end
+      description_strategy.description
     end
 
     def external_links
