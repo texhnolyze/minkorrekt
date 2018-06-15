@@ -1,9 +1,10 @@
 module Minkorrekt
   class EpisodeExtractor
-    attr_reader :feed_parser, :required_fields
+    attr_reader :feed_parser, :required_fields, :episode
 
-    def initialize(feed_parser)
+    def initialize(feed_parser, episode)
       @feed_parser = feed_parser
+      @episode = episode
       @required_fields = [:title, :link, :pubDate, :description, :encoded]
     end
 
@@ -12,7 +13,7 @@ module Minkorrekt
       episodes = []
 
       data.each do |x|
-        episodes << Minkorrekt::Episode.new(x[:link], x[:title], x[:pubDate], x[:description], x[:encoded])
+        episodes << episode.new(x[:link], x[:title], x[:pubDate], x[:description], x[:encoded])
       end
 
       episodes

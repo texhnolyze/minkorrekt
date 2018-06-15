@@ -1,5 +1,19 @@
 module Minkorrekt
   class Episode
+    def self.setup(experiment, china_gadget)
+      @experiment = experiment
+      @china_gadget = china_gadget
+      self
+    end
+
+    def self.experiment
+      @experiment
+    end
+
+    def self.china_gadget
+      @china_gadget
+    end
+
     attr_reader :title, :url, :summary, :description, :publication_date, :is_special, :experiment, :china_gadget
 
     def initialize(url, title, publication_date, summary, description)
@@ -10,8 +24,8 @@ module Minkorrekt
       @publication_date = publication_date
       @is_special = false
 
-      @experiment = Minkorrekt::Experiment.new(self)
-      @china_gadget = Minkorrekt::ChinaGadget.new(self)
+      @experiment = self.class.experiment.new(self)
+      @china_gadget = self.class.china_gadget.new(self)
     end
 
     def number

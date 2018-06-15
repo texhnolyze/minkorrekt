@@ -9,7 +9,7 @@ module Minkorrekt
     end
 
     def title
-      matches = episode.summary.match(/Experiment der Woche: (?:")?([ \wäöü-]+)/)
+      matches = episode.summary.match(/experiment der woche: (?:")?([ \wäöü-]+)/i)
       matches ? matches.captures[0] : 'Gab kein Experiment'
     end
 

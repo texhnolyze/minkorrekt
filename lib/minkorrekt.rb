@@ -11,6 +11,8 @@ module Minkorrekt
   require_relative 'minkorrekt/experiment'
   require_relative 'minkorrekt/china_gadget'
   require_relative 'minkorrekt/github_client'
+  require_relative 'minkorrekt/title_strategy'
+  require_relative 'minkorrekt/description_strategy'
 
   def setup(feed_uri = 'http://minkorrekt.de/feed/mp3/')
     github_backend = Octokit::Client
@@ -21,7 +23,16 @@ module Minkorrekt
     )
 
     parser = Minkorrekt::FeedParser.new(feed_uri)
-    extractor = Minkorrekt::EpisodeExtractor.new(parser)
+
+    experiment = Minkorrekt::Experiment
+    china_gadget = Minkorrekt::ChinaGadget.setup(
+      Minkorrekt::ChinaGadgetTitleStrategy,
+      Minkorrekt::ChinaGadgetDescriptionStrategy
+    )
+
+    episode = Minkorrekt::Episode.setup(experiment, china_gadget)
+
+    extractor = Minkorrekt::EpisodeExtractor.new(parser, episode)
     episodes = extractor.generate_episode_models
 
     episode = episodes[24]

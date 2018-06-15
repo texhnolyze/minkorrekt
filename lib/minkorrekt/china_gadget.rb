@@ -1,27 +1,33 @@
 module Minkorrekt
   class ChinaGadget
-    attr_reader :episode
+    def self.setup(title_strategy, description_strategy)
+      @title_strategy = title_strategy
+      @description_strategy = description_strategy
+      self
+    end
+
+    def self.title_strategy
+      @title_strategy
+    end
+
+    def self.description_strategy
+      @description_strategy
+    end
+
+    attr_reader :episode, :title_strategy, :description_strategy
 
     def initialize(episode)
       @episode = episode
+      @title_strategy = self.class.title_strategy.new(episode)
+      @description_strategy = self.class.description_strategy.new(episode)
     end
 
     def title
-      matches = episode.summary.match(/chinagadget: (?:")?([ \wäöü-]+)/i)
-      matches ? matches.captures[0] : 'Gab kein Chinagadget'
+      title_strategy.title
     end
 
     def description
-      if defined?(@description)
-        @description
-      else
-        desc = episode.description.lines.select do |paragraph|
-          paragraph.match(/china/i) && !paragraph.match(/Thema \d/)
-        end
-
-        @description = desc.last || ''
-        @description.strip!
-      end
+      description_strategy.description
     end
 
     def external_links
