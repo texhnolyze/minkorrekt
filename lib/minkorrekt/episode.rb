@@ -33,7 +33,7 @@ module Minkorrekt
       if matches
         matches.captures[0]
       else
-        is_special = true
+        @is_special = true
         'Sonderfolge'
       end
     end
