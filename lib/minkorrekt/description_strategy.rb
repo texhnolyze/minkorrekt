@@ -12,7 +12,7 @@ module Minkorrekt
       if matches.empty?
         fallback
       else
-        matches.last.strip
+        matches.first.strip
       end
     end
   end
