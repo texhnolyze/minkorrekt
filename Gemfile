@@ -6,9 +6,9 @@ ruby RUBY_VERSION
 
 git_source(:github) {|repo_name| "https://github.com/#{repo_name}" }
 
-gem 'octokit'
-gem 'nokogiri'
+gem "nokogiri", "~> 1.8"
+gem "octokit", "~> 4.9"
 
 group :test, :development do
-  gem 'respec'
+  gem "rspec", "~> 3.7"
 end
