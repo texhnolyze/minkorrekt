@@ -1,7 +1,6 @@
-
-
 module Minkorrekt
   require 'octokit'
+  require 'faraday-http-cache'
   require 'nokogiri'
   require 'open-uri'
 
@@ -15,6 +14,12 @@ module Minkorrekt
   require_relative 'minkorrekt/description_strategy'
 
   def setup(feed_uri = 'http://minkorrekt.de/feed/mp3/')
+    stack = Faraday::RackBuilder.new do |builder|
+      builder.use Faraday::HttpCache, serializer: Marshal, shared_cache: false
+      builder.use Octokit::Response::RaiseError
+      builder.adapter Faraday.default_adapter
+    end
+    Octokit.middleware = stack
     github_backend = Octokit::Client
     github_oauth_token = ENV['GITHUB_OAUTH_TOKEN']
     github_client = Minkorrekt::GithubClient.setup(

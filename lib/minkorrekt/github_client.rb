@@ -11,32 +11,42 @@ module Minkorrekt
       @client
     end
 
-    def initialize
-      @result = nil
-    end
-
     def client
       self.class.client
     end
 
     def experiment_docs_available?(episode_id)
-      search_experiment_docs(episode_id).total_count > 0
+      !experiment_docs_view_url(episode_id).empty?
     end
 
     def experiment_docs_complete?(episode_id)
-      experiment_docs_available?(episode_id) && !search_experiment_docs(episode_id).items.first.path.include?('todo')
+      !experiment_doc_from(episode_id, finished_experiment_docs).nil?
     end
 
-    def experiment_docs_url(episode_id)
-      experiment_docs_available?(episode_id) ? search_experiment_docs(episode_id).items.first.html_url : ''
+    def experiment_docs_view_url(episode_id)
+      experiment_docs = experiment_docs_in_progress.concat(finished_experiment_docs)
+      doc = experiment_doc_from(episode_id, experiment_docs)
+      doc ? doc.html_url : ''
+    end
+
+    def experiment_docs_edit_url(episode_id)
+      experiment_docs_view_url(episode_id).gsub('blob', 'edit')
     end
 
     def experiment_docs_creation_base_url()
       "https://github.com/pajowu/minkorrekt-experimente/new/master"
     end
 
-    def search_experiment_docs(episode_id)
-      @result ||= client.search_code("repo:pajowu/minkorrekt-experimente extension:md filename:#{episode_id}")
+    def experiment_doc_from(episode_id, list)
+      list.find { |doc| doc.name.eql?("#{episode_id}.md") }
+    end
+
+    def finished_experiment_docs()
+      client.contents('pajowu/minkorrekt-experimente', { path: 'docs' })
+    end
+
+    def experiment_docs_in_progress()
+      client.contents('pajowu/minkorrekt-experimente', { path: 'docs/todo' })
     end
   end
 end

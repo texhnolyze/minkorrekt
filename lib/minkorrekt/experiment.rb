@@ -44,7 +44,11 @@ module Minkorrekt
     end
 
     def docs_view_url
-      client.experiment_docs_url(docs_id)
+      client.experiment_docs_view_url(docs_id)
+    end
+
+    def docs_edit_url
+      client.experiment_docs_edit_url(docs_id)
     end
 
     def docs_creation_url
