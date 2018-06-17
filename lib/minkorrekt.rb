@@ -2,7 +2,7 @@ module Minkorrekt
   require 'octokit'
   require 'faraday-http-cache'
   require 'nokogiri'
-  require 'open-uri'
+  require 'mustache'
 
   require_relative 'minkorrekt/importer/feed_parser'
   require_relative 'minkorrekt/importer/episode_extractor'
@@ -15,10 +15,19 @@ module Minkorrekt
 
   require_relative 'minkorrekt/github_client'
 
+  require_relative 'minkorrekt/exporter/file_exporter'
+  require_relative 'minkorrekt/renderer/mustache_renderer'
+
   module_function
 
   def setup(feed_uri = 'http://minkorrekt.de/feed/mp3/')
     episodes = episode_importer(feed_uri).generate_episode_models
+
+    renderer = Minkorrekt::MustacheRenderer.new
+    output = renderer.render_experiments(episodes)
+
+    exporter = Minkorrekt::FileExporter.new(File.expand_path('../output/', __dir__))
+    exporter.export(output, 'experiments-list.md')
   end
 
   def github_client

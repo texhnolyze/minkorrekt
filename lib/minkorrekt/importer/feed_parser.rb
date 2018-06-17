@@ -1,5 +1,7 @@
 module Minkorrekt
   class FeedParser
+    require 'open-uri'
+
     attr_reader :feed_uri
 
     def initialize(feed_uri)

@@ -10,6 +10,7 @@ GEM
       faraday (~> 0.8)
     mini_portile2 (2.3.0)
     multipart-post (2.0.0)
+    mustache (1.0.5)
     nokogiri (1.8.2)
       mini_portile2 (~> 2.3.0)
     octokit (4.9.0)
@@ -37,6 +38,7 @@ PLATFORMS
 
 DEPENDENCIES
   faraday-http-cache (~> 2.0)
+  mustache (~> 1.0)
   nokogiri (~> 1.8)
   octokit (~> 4.9)
   rspec (~> 3.7)

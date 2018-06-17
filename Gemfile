@@ -13,3 +13,5 @@ gem "faraday-http-cache", "~> 2.0"
 group :test, :development do
   gem "rspec", "~> 3.7"
 end
+
+gem "mustache", "~> 1.0"

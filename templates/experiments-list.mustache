@@ -1,0 +1,5 @@
+Episode | Datum | Experiment | Links | Anleitung
+------- | ----- | ---------- | ----- | ---------
+{{# episodes}}
+[{{ title }}]({{ url }}) | {{ publication_date }} | {{ experiment.title }} | {{# experiment.external_links }} - [{{ text }}]({{ url }}) <br/> {{/ experiment.external_links }} | {{# experiment.docs_complete? }} [Anleitung]({{ experiment.docs_view_url }}) {{/ experiment.docs_complete? }}{{^ experiment.docs_complete? }}{{# experiment.docs_available? }} [Anleitung vervollstaendigen]({{ experiment.docs_edit_url }}) {{/ experiment.docs_available? }}{{^ experiment.docs_available? }} [Anleitung anlegen]({{ experiment.docs_creation_url }}) {{/ experiment.docs_available? }}{{/ experiment.docs_complete? }}
+{{/ episodes}}
