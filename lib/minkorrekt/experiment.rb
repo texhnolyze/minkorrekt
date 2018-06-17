@@ -79,16 +79,5 @@ module Minkorrekt
     def docs_complete?
       client.experiment_docs_complete?(docs_id)
     end
-
-    def to_s
-      "Experiment Id: #{docs_id}\n" +
-      "Experiment Titel: #{title}\n" +
-      "Experiment Links: #{external_links}\n" +
-      "Experiment Beschreibung: #{description}\n" +
-      "Experiment Anleitung verfuegbar: #{docs_available?}\n" +
-      "Experiment Anleitung vollstaendig: #{docs_complete?}\n" +
-      "Experiment Anleitung url: #{docs_view_url}\n" +
-      "Experiment Anleitung hinzufuegen url: #{docs_creation_url}\n"
-    end
   end
 end

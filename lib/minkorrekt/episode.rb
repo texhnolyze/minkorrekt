@@ -37,14 +37,5 @@ module Minkorrekt
         'Sonderfolge'
       end
     end
-
-    def to_s
-      "Titel: #{title}\n" +
-      "URL: #{url}\n" +
-      "Nummer: #{number}\n" +
-      "Spezialfolge: #{is_special}\n" +
-      "Veroeffentlichungsdatum: #{publication_date}\n" +
-      "Experiment: #{experiment}\n\n"
-    end
   end
 end
