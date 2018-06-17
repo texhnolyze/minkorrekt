@@ -40,7 +40,7 @@ module Minkorrekt
 
     def external_links
       link_tags = Nokogiri::HTML(description).xpath('//a')
-      Hash[link_tags.map { |tag| [tag.text, tag.attr('href')] }]
+      link_tags.map { |tag| { text: tag.text, url: tag.attr('href') } }
     end
 
     def docs_view_url
@@ -68,7 +68,7 @@ module Minkorrekt
          ## Warum?
 
          ## Weitere Informationen
-         #{external_links.map { |text, link| "- [#{text}](#{link})" }.join("\n")}
+         #{external_links.map { |link| "- [#{link[:text]}](#{link[:url]})" }.join("\n")}
       HEREDOC
     end
 
